@@ -6,6 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.util.Map;
+/*
 
 public class DataModel {
 
@@ -38,4 +39,4 @@ public class DataModel {
     public ObservableList<Jogador> getPersonList() {
         return jogadores ;
     }
-}
+}*/
