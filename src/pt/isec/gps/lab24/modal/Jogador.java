@@ -1,6 +1,6 @@
 package pt.isec.gps.lab24.modal;
 
-public class  Jogador<T> {
+public class  Jogador {
     private String nome;
     private int pontos;
     private int turno;
@@ -36,5 +36,14 @@ public class  Jogador<T> {
 
     public void setTurno(int turno) {
         this.turno = turno;
+    }
+
+    @Override
+    public String toString() {
+        return "Jogador{" +
+                "nome='" + nome + '\'' +
+                ", pontos=" + pontos +
+                ", turno=" + turno +
+                '}';
     }
 }
