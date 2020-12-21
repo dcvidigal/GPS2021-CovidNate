@@ -20,4 +20,6 @@ public class NovoJogoController {
     public void voltar(ActionEvent event) {
         new Commons().mudarEcra(Commons.VIEW_MAIN_MENU, event, jogador);
     }
+
+    public void jogar(ActionEvent event) {new Commons().mudarEcra(Commons.VIEW_TABULEIRO,event,jogador);}
 }
