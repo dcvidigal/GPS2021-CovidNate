@@ -3,6 +3,7 @@ package pt.isec.gps.lab24.controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import pt.isec.gps.lab24.Commons;
@@ -33,9 +34,23 @@ public class EditarJogadorController {
     }
     public void confirmar(ActionEvent actionEvent) {
         //TODO validação de nome
-        this.jogador.setNome( tfNome.getText()  );
-        Stage appStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-        appStage.close();//TODO Validar se é a melhor forma de sair
+        if(validar() == true) {
+            this.jogador.setNome(tfNome.getText());
+            Stage appStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            appStage.close();//TODO Validar se é a melhor forma de sair
+        }
+        }
+
+    public Boolean validar(){
+        if(tfNome.getText().length() < 4 || tfNome.getText().length() > 16){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Nome invalido");
+            alert.setHeaderText(null);
+            alert.setContentText("Nome precisa de ter no minimo 4 letraas e menos de 16!");
+            alert.showAndWait();
+            return false;
+        }
+        return true;
     }
 
     public void voltar(ActionEvent event) {

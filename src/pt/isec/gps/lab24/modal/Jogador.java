@@ -38,6 +38,7 @@ public class  Jogador {
         this.turno = turno;
     }
 
+
     @Override
     public String toString() {
         return "Jogador{" +
