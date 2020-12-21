@@ -48,4 +48,19 @@ public class Pessoa {
     public void move(Direcao direcao){
         posicao.move(direcao);
     }
+
+    @Override
+    public String toString() {
+        return "Pessoa{" +
+                "infetada=" + infetada +
+                ", imune=" + imune +
+                ", quarentena=" + quarentena +
+                ", diasInfetados=" + diasInfetados +
+                ", diasEmQuarentena=" + diasEmQuarentena +
+                ", posicao=" + posicao +
+                ", probInfetar=" + probInfetar +
+                ", probImunidade=" + probImunidade +
+                ", turnoSemInfetar=" + turnoSemInfetar +
+                '}';
+    }
 }

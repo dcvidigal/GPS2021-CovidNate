@@ -54,4 +54,15 @@ public abstract class Tabuleiro {
     public int getNumColunas() {
         return numColunas;
     }
+
+    @Override
+    public String toString() {
+        return "Tabuleiro{" +
+                "numLinhas=" + numLinhas +
+                ", numColunas=" + numColunas +
+                ", pessoas=" + pessoas +
+                ", numInfetadosInicial=" + numInfetadosInicial +
+                ", tempoMaxIsolamento=" + tempoMaxIsolamento +
+                '}';
+    }
 }
