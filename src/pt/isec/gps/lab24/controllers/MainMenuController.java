@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.control.RadioButton;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import pt.isec.gps.lab24.DialogModal;
