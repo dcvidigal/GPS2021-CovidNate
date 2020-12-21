@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import pt.isec.gps.lab24.Commons;
 import pt.isec.gps.lab24.modal.Jogador;
 
 public class EditarJogadorController {
@@ -35,5 +36,15 @@ public class EditarJogadorController {
         this.jogador.setNome( tfNome.getText()  );
         Stage appStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         appStage.close();//TODO Validar se é a melhor forma de sair
+    }
+
+    public void voltar(ActionEvent event) {
+        closeStage(event);
+    }
+
+    private void closeStage(ActionEvent event) {
+        Node  source = (Node)  event.getSource();
+        Stage stage  = (Stage) source.getScene().getWindow();
+        stage.close();
     }
 }

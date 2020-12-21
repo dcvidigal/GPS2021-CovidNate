@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="585.0" prefWidth="926.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.isec.gps.lab24.controllers.TabuleiroController">
+   <children>
+      <Label layoutX="370.0" layoutY="32.0" text="CovidNate">
+         <font>
+            <Font size="40.0" />
+         </font>
+      </Label>
+      <TextArea layoutX="654.0" layoutY="134.0" prefHeight="393.0" prefWidth="240.0" />
+      <Label layoutX="654.0" layoutY="98.0" text="Histórico de Jogadas">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <ScrollBar layoutX="880.0" layoutY="134.0" orientation="VERTICAL" prefHeight="393.0" prefWidth="14.0" />
+      <Label layoutX="31.0" layoutY="126.0" text="Tempo Decorrido" />
+      <Label layoutX="35.0" layoutY="164.0" text="Pontos" />
+      <Label fx:id="lblPontos" layoutX="89.0" layoutY="164.0" text="Label" />
+      <Label fx:id="lblTime" layoutX="134.0" layoutY="126.0" text="Label" />
+      <Label layoutX="35.0" layoutY="478.0" text="Número Recuperados" />
+      <Label layoutX="35.0" layoutY="495.0" text="Turno" />
+      <Label layoutX="35.0" layoutY="511.0" text="Próximo Turno em" />
+      <Label layoutX="35.0" layoutY="529.0" text="sadsad" />
+      <Label fx:id="lblRecuperados" layoutX="162.0" layoutY="478.0" text="Label" />
+      <Label fx:id="lblTurno" layoutX="70.0" layoutY="495.0" text="Label" />
+      <Label fx:id="lblTimeLimit" layoutX="137.0" layoutY="511.0" text="Label" />
+      <Button layoutX="45.0" layoutY="280.0" mnemonicParsing="false" text="Desistir" />
+      <Button layoutX="31.0" layoutY="226.0" mnemonicParsing="false" text="Próximo Turno" />
+   </children>
+</AnchorPane>

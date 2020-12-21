@@ -4,9 +4,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.isec.gps.lab24.controllers.EditarJogadorController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.isec.gps.lab24.controllers.NovoJogadorController">
    <children>
-      <Label layoutX="209.0" layoutY="64.0" text="Editar Perfil">
+      <Label layoutX="209.0" layoutY="64.0" text="Criar Perfil">
          <font>
             <Font size="40.0" />
          </font>
@@ -21,12 +21,12 @@
             <Font size="18.0" />
          </font>
       </TextField>
-      <Button layoutX="218.0" layoutY="290.0" mnemonicParsing="false" onAction="#confirmar" text="Confirmar">
+      <Button layoutX="197.0" layoutY="291.0" mnemonicParsing="false" onAction="#confirmAction" text="Confirmar">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <Button layoutX="333.0" layoutY="290.0" mnemonicParsing="false" onAction="#voltar" prefHeight="25.0" prefWidth="69.0" text="Voltar">
+      <Button layoutX="312.0" layoutY="291.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="69.0" text="Sair">
          <font>
             <Font size="18.0" />
          </font>
