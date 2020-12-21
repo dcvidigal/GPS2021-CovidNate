@@ -71,14 +71,14 @@ public class MainMenuController implements Initializable {
     public void novoJogo( ActionEvent event ){
 
         DialogModal modal = new DialogModal(Commons.VIEW_NOVO_JOGO, jogador);
-        /*NovoJogo controller = null;
+        NovoJogoController controller = null;
         try {
             controller = modal.showDialogModal(((Node)event.getSource()).getScene());
             jogador = controller.getJogador();
             System.out.println(jogador);
         } catch (IOException e) {
             e.printStackTrace();
-        }*/
+        }
 
 
     }
