@@ -18,6 +18,6 @@ public class TabaleClassificacaoController {
     }
 
     public void voltar(ActionEvent event) {
-        //new Commons().mudarEcra(Commons.VIEW_TABELA_CLASSIFICACAO, event, jogador);
+        new Commons().mudarEcra(Commons.VIEW_MAIN_MENU, event, jogador);
     }
 }
