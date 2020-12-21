@@ -13,8 +13,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("views/main_menu.fxml"));
-        //Parent root = FXMLLoader.load(getClass().getResource("views/novo_jogador.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource(Commons.VIEW_MAIN_MENU));
+        //Parent root = FXMLLoader.load(getClass().getResource(Commons.VIEW_TABELA_CLASSIFICACAO));
 
         primaryStage.setTitle("CovidNate");
         primaryStage.setScene(new Scene(root));
