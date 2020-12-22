@@ -6,6 +6,7 @@ import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import pt.isec.gps.lab24.modal.Sistema;
 
 import java.util.logging.Logger;
 
@@ -13,6 +14,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+        Sistema covidNate = new Sistema();
         Parent root = FXMLLoader.load(getClass().getResource(Commons.VIEW_NOVO_JOGO));
         //Parent root = FXMLLoader.load(getClass().getResource(Commons.VIEW_TABELA_CLASSIFICACAO));
 

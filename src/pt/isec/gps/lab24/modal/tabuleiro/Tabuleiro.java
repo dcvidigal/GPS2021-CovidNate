@@ -2,6 +2,7 @@ package pt.isec.gps.lab24.modal.tabuleiro;
 
 import pt.isec.gps.lab24.modal.Pessoa;
 import pt.isec.gps.lab24.modal.recursos.Posicao;
+import pt.isec.gps.lab24.modal.recursos.TabuleiroEnum;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,7 @@ public abstract class Tabuleiro {
     private List<Pessoa> pessoas;
     private int numInfetadosInicial;
     private int tempoMaxIsolamento;
+    private TabuleiroEnum tabuleiro [][];
 
     public Tabuleiro(int numLinhas, int numColunas, int numMaxPessoas, int numInfetadosInicial, int tempoMaxIsolamento, int turnoSemInfetar, double probInfetar, double probImunidade) {
         this.numLinhas = numLinhas;
@@ -21,7 +23,17 @@ public abstract class Tabuleiro {
         this.numInfetadosInicial = numInfetadosInicial;
         this.tempoMaxIsolamento = tempoMaxIsolamento;
 
+        iniciaTabuleiro();
         criaPessoas(numMaxPessoas, turnoSemInfetar, probInfetar, probImunidade);
+    }
+
+    private void iniciaTabuleiro() {
+        tabuleiro = new TabuleiroEnum[numColunas][numLinhas];
+        for(int i=0;i<numColunas;i++){
+            for(int j=0;j<numLinhas;j++){
+                tabuleiro[i][j]=TabuleiroEnum.VAZIO;
+            }
+        }
     }
 
     private void criaPessoas(int numMaxPessoas,int turnoSemInfetar, double probInfetar, double probImunidade){
@@ -32,16 +44,11 @@ public abstract class Tabuleiro {
 
     private Posicao novaPosicao() {
         Posicao pos;
-        boolean repetido = false;
 
         while(true){
             pos = new Posicao(new Random().nextInt(numColunas), new Random().nextInt(numLinhas));
-            for (Pessoa p: pessoas){
-                if(p.getPosicao().equals(pos)){
-                    repetido = true;
-                }
-            }
-            if(repetido == false){
+            if(tabuleiro[pos.getX()][pos.getY()] == TabuleiroEnum.VAZIO){
+                tabuleiro[pos.getX()][pos.getY()] = TabuleiroEnum.PESSOA;
                 return pos;
             }
         }
@@ -60,9 +67,13 @@ public abstract class Tabuleiro {
         return "Tabuleiro{" +
                 "numLinhas=" + numLinhas +
                 ", numColunas=" + numColunas +
-                ", pessoas=" + pessoas +
                 ", numInfetadosInicial=" + numInfetadosInicial +
                 ", tempoMaxIsolamento=" + tempoMaxIsolamento +
+                "\n, pessoas=" + pessoas +
                 '}';
+    }
+
+    public TabuleiroEnum[][] getTabuleiro() {
+        return tabuleiro.clone();
     }
 }

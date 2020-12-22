@@ -60,7 +60,7 @@ public class Pessoa {
                 ", posicao=" + posicao +
                 ", probInfetar=" + probInfetar +
                 ", probImunidade=" + probImunidade +
-                ", turnoSemInfetar=" + turnoSemInfetar +
+                ", turnoSemInfetar=" + turnoSemInfetar + "\n" +
                 '}';
     }
 }
