@@ -4,7 +4,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
+
 import javafx.scene.control.RadioButton;
+
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import pt.isec.gps.lab24.Commons;
 import pt.isec.gps.lab24.modal.Jogador;
@@ -23,11 +26,15 @@ public class TabuleiroController {
     @FXML
     private GridPane gpTabuleiro;
     @FXML
+
     private RadioButton facil;
     @FXML
     private RadioButton normal;
     @FXML
     private RadioButton dificil;
+
+    private TextArea historico;
+
 
     Jogador jogador;
     private Tabuleiro tab;
@@ -61,4 +68,8 @@ public class TabuleiroController {
     public void setTabuleiro(Tabuleiro tab) {
         this.tab=tab;
     }
+    public void hisJoagadas (){
+        historico.setText("ola ola");
+    };
+
 }
