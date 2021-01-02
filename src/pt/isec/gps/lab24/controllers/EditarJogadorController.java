@@ -44,9 +44,9 @@ public class EditarJogadorController {
     public Boolean validar(){
         if(tfNome.getText().length() < 4 || tfNome.getText().length() > 16){
             Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Nome invalido");
+            alert.setTitle("Nome inválido");
             alert.setHeaderText(null);
-            alert.setContentText("Nome precisa de ter no minimo 4 letraas e menos de 16!");
+            alert.setContentText("Nome precisa de ter entre 4 a 16 letras!");
             alert.showAndWait();
             return false;
         }
