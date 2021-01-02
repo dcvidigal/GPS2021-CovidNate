@@ -4,11 +4,16 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.RadioButton;
 import javafx.scene.layout.GridPane;
 import pt.isec.gps.lab24.Commons;
 import pt.isec.gps.lab24.modal.Jogador;
 
 import javafx.event.ActionEvent;
+import pt.isec.gps.lab24.modal.tabuleiro.Tabuleiro;
+import pt.isec.gps.lab24.modal.tabuleiro.TabuleiroDificil;
+import pt.isec.gps.lab24.modal.tabuleiro.TabuleiroFacil;
+import pt.isec.gps.lab24.modal.tabuleiro.TabuleiroNormal;
 
 import java.util.Optional;
 
@@ -17,9 +22,15 @@ public class TabuleiroController {
 
     @FXML
     private GridPane gpTabuleiro;
+    @FXML
+    private RadioButton facil;
+    @FXML
+    private RadioButton normal;
+    @FXML
+    private RadioButton dificil;
 
     Jogador jogador;
-
+    private Tabuleiro tab;
     public Jogador getJogador() {
         return jogador;
     }
@@ -27,6 +38,8 @@ public class TabuleiroController {
     public void setJogador(Jogador jogador) {
         this.jogador = jogador;
     }
+
+
 
     public void desistir (ActionEvent event){
         Alert a = new Alert(Alert.AlertType.CONFIRMATION);
@@ -42,6 +55,10 @@ public class TabuleiroController {
         Optional<ButtonType> result = a.showAndWait();
         if (result.get() == buttonTypeOne){
             new Commons().mudarEcra(Commons.VIEW_MAIN_MENU, event, jogador);
-        } else {}
+        }// else {}
+    }
+
+    public void setTabuleiro(Tabuleiro tab) {
+        this.tab=tab;
     }
 }

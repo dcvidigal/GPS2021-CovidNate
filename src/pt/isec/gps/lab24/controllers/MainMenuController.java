@@ -73,14 +73,11 @@ public class MainMenuController implements Initializable {
 
         DialogModal modal = new DialogModal(Commons.VIEW_NOVO_JOGO, jogador);
         NovoJogoController controller = null;
-        try {
-            controller = modal.showDialogModal(((Node)event.getSource()).getScene());
-            jogador = controller.getJogador();
-            System.out.println(jogador);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
+            //controller = modal.showDialogModal(((Node)event.getSource()).getScene());
+            //jogador = controller.getJogador();
+            new Commons().mudarEcra(Commons.VIEW_NOVO_JOGO, event, jogador);
+            System.out.println(jogador);
 
     }
 

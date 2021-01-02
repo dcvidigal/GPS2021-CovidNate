@@ -1,5 +1,7 @@
 package pt.isec.gps.lab24.modal.tabuleiro;
 
+import javafx.fxml.FXML;
+import javafx.scene.control.RadioButton;
 import pt.isec.gps.lab24.modal.Pessoa;
 import pt.isec.gps.lab24.modal.recursos.Posicao;
 import pt.isec.gps.lab24.modal.recursos.TabuleiroEnum;
@@ -15,6 +17,7 @@ public abstract class Tabuleiro {
     private int numInfetadosInicial;
     private int tempoMaxIsolamento;
     private TabuleiroEnum tabuleiro [][];
+
 
     public Tabuleiro(int numLinhas, int numColunas, int numMaxPessoas, int numInfetadosInicial, int tempoMaxIsolamento, int turnoSemInfetar, double probInfetar, double probImunidade) {
         this.numLinhas = numLinhas;
