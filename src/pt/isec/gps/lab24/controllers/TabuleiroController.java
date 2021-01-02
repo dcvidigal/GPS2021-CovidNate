@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
 import pt.isec.gps.lab24.Commons;
 import pt.isec.gps.lab24.modal.Jogador;
@@ -17,6 +18,8 @@ public class TabuleiroController {
 
     @FXML
     private GridPane gpTabuleiro;
+    @FXML
+    private TextArea historico;
 
     Jogador jogador;
 
@@ -44,4 +47,8 @@ public class TabuleiroController {
             new Commons().mudarEcra(Commons.VIEW_MAIN_MENU, event, jogador);
         } else {}
     }
+    public void hisJoagadas (){
+        historico.setText("ola ola");
+    };
+
 }
