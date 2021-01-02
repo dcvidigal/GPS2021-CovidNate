@@ -49,6 +49,10 @@ public class Pessoa {
         posicao.move(direcao);
     }
 
+    public void infetar(){
+        infetada = true;
+    }
+
     @Override
     public String toString() {
         return "Pessoa{" +
