@@ -50,7 +50,12 @@ public class NovoJogadorController {
         }
         return true;
     }
+    public void sair(ActionEvent event){
 
+        Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+        appStage.close();
+    }
     public Jogador getJogador(){
         return this.jogador;
     }
