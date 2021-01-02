@@ -1,10 +1,7 @@
 package pt.isec.gps.lab24.modal.tabuleiro;
 
-import javafx.fxml.FXML;
-import javafx.scene.control.RadioButton;
 import pt.isec.gps.lab24.modal.Pessoa;
 import pt.isec.gps.lab24.modal.recursos.Posicao;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +24,14 @@ public abstract class Tabuleiro {
         this.tempoMaxIsolamento = tempoMaxIsolamento;
 
         iniciaTabuleiro();
-        criaPessoas(numMaxPessoas, turnoSemInfetar, probInfetar, probImunidade);
+        criaPessoas(numMaxPessoas, turnoSemInfetar, probInfetar, probImunidade, tempoMaxIsolamento);
+        //incializar X pessoas infetadas aleatoriamente
+        while(numInfetadosInicial-- > 0){
+            Random r = new Random();
+            int pos = r.nextInt(numMaxPessoas);
+            if(!pessoas.get(pos).isInfetada()) pessoas.get(pos).infetar();
+            else numInfetadosInicial++;
+        }
     }
 
     private void iniciaTabuleiro() {
@@ -39,9 +43,9 @@ public abstract class Tabuleiro {
         }
     }
 
-    private void criaPessoas(int numMaxPessoas,int turnoSemInfetar, double probInfetar, double probImunidade){
+    private void criaPessoas(int numMaxPessoas,int turnoSemInfetar, double probInfetar, double probImunidade, int turnosEmQuarentena){
         for(int i=0; i<numMaxPessoas; i++){
-            pessoas.add(new Pessoa(novaPosicao(i), probInfetar, probImunidade, turnoSemInfetar));
+            pessoas.add(new Pessoa(novaPosicao(i), probInfetar, probImunidade, turnoSemInfetar,turnosEmQuarentena));
         }
     }
 
@@ -83,7 +87,21 @@ public abstract class Tabuleiro {
     public void proximoTurno(){
         iniciaContagendoTempo();
         validaFimJogo();
-
+        for (int i = 0; i < pessoas.size(); i++) {
+            if(!pessoas.get(i).isQuarentena()) { // move so as pessoas que NÃO estão em quarentena
+                Posicao pos = novaPosicao(i);
+                tabuleiro[pessoas.get(i).getPosicao().getX()][pessoas.get(i).getPosicao().getY()] = -1;
+                pessoas.get(i).setPosicao(pos);
+            }
+            if(pessoas.get(i).isQuarentena()) {
+                pessoas.get(i).setTurnosEmQuarentena(pessoas.get(i).getTurnosEmQuarentena() - 1);
+                if (pessoas.get(i).getTurnosEmQuarentena() == 0) {
+                    pessoas.get(i).setQuarentena(false);
+                    pessoas.get(i).tentaFicarImune();
+                    pessoas.get(i).setInfetada(false);
+                }
+            }
+        }
 
     }
 
@@ -96,15 +114,16 @@ public abstract class Tabuleiro {
     }
 
     protected void validaFimJogo(){
-        System.out.println("Falta implementar");
+        System.out.println("validaFimJogo: Falta implementar");
     }
 
     private void iniciaContagendoTempo() {
-        System.out.println("Falta implementar");
+        System.out.println("iniciaContagendoTempo: Falta implementar");
     }
 
-    private Pessoa getPessoa(Posicao posPessoa){
-        int i = tabuleiro[posPessoa.getY()][posPessoa.getX()];
+    public Pessoa getPessoa(Posicao posPessoa){
+        int i = tabuleiro[posPessoa.getX()][posPessoa.getY()];
         return pessoas.get(i);
     }
+
 }

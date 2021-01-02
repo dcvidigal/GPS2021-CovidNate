@@ -28,6 +28,7 @@ public class  Jogador {
 
     public void setPontos(int pontos) {
         this.pontos = pontos;
+        if(this.pontos < 0) this.pontos = 0;
     }
 
     public int getTurno() {

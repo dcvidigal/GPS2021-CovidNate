@@ -1,28 +1,39 @@
 package pt.isec.gps.lab24.controllers;
 
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
-
-import javafx.scene.control.RadioButton;
-
-import javafx.scene.control.TextArea;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import pt.isec.gps.lab24.Commons;
 import pt.isec.gps.lab24.modal.Jogador;
-
-import javafx.event.ActionEvent;
+import pt.isec.gps.lab24.modal.Pessoa;
+import pt.isec.gps.lab24.modal.recursos.Posicao;
 import pt.isec.gps.lab24.modal.tabuleiro.Tabuleiro;
-import pt.isec.gps.lab24.modal.tabuleiro.TabuleiroDificil;
 import pt.isec.gps.lab24.modal.tabuleiro.TabuleiroFacil;
-import pt.isec.gps.lab24.modal.tabuleiro.TabuleiroNormal;
 
+import java.net.URL;
 import java.util.Optional;
+import java.util.ResourceBundle;
 
 
-public class TabuleiroController {
+public class TabuleiroController implements Initializable {
 
+    @FXML
+    public Label lblPontos;
+    @FXML
+    public Label lblTime;
+    @FXML
+    public Label lblRecuperados;
+    @FXML
+    public Label lblTurno;
+    @FXML
+    public Label lblTimeLimit;
     @FXML
     private GridPane gpTabuleiro;
     @FXML
@@ -33,8 +44,8 @@ public class TabuleiroController {
     @FXML
     private RadioButton dificil;
 
+    @FXML
     private TextArea historico;
-
 
     Jogador jogador;
     private Tabuleiro tab;
@@ -69,7 +80,81 @@ public class TabuleiroController {
         this.tab=tab;
     }
     public void hisJoagadas (){
-        historico.setText("ola ola");
-    };
+        atualizaHistoricoJogadas("ola ola");
+    }
 
+    public void atualizaHistoricoJogadas (String msg) {
+        String strHistorico = historico.getText();
+        strHistorico += "\n" + msg;
+        historico.setText(strHistorico);
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        Platform.runLater(() -> {
+            if(this.jogador == null) this.jogador = new Jogador("guess",0,0);
+            if(tab == null) tab = new TabuleiroFacil(10,10,35);
+
+            redesenhar();
+
+            for (Node node : gpTabuleiro.getChildren()) {
+                node.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent e) {
+                        Node source = (Node) e.getSource();
+                        Integer colIndex = gpTabuleiro.getColumnIndex(source);
+                        Integer rowIndex = gpTabuleiro.getRowIndex(source);
+                        System.out.printf("Mouse entered cell [%d, %d]%n", colIndex.intValue(), rowIndex.intValue());
+                        Pessoa p = tab.getPessoa(new Posicao(colIndex.intValue(), rowIndex.intValue()));
+                        System.out.println(p.toString());
+                        if(p.isInfetada()){//encontrou infetado
+                            p.setQuarentena(true);
+                            tab.getPessoa(new Posicao(colIndex.intValue(), rowIndex.intValue())).setQuarentena(true);
+                            gpTabuleiro.getChildren().remove(p.getPanePessoa());
+                            gpTabuleiro.add(p.getPanePessoa(), p.getPosicao().getX(), p.getPosicao().getY());
+                            jogador.setPontos(jogador.getPontos() + 5);
+                            lblPontos.setText(jogador.getPontos()+"");
+                            atualizaHistoricoJogadas("Pessoa na posição " + p.getPosicao().getX() +","+ p.getPosicao().getY() +" posta em quarentena!");
+                        }else{
+                            jogador.setPontos(jogador.getPontos() - 2);
+                            proximoTurno();
+                            atualizaHistoricoJogadas("FAZER MAIS MENSAGENS!!!");
+                        }
+
+                    }
+                });
+            }
+
+        });
+    }
+
+
+    public void proximoTurno(ActionEvent event) {
+       atualizaHistoricoJogadas("O jogador " + jogador.getNome() +" passou o turno");
+       proximoTurno();
+    }
+
+    private void proximoTurno() {
+        this.jogador.setTurno(this.jogador.getTurno() + 1 );
+        tab.proximoTurno();
+        redesenhar();
+    }
+
+    private void redesenhar() {
+        if(this.jogador.getTurno() < 0 ) this.jogador.setTurno(0);
+        lblTurno.setText(this.jogador.getTurno()+"");
+        lblPontos.setText(this.jogador.getPontos()+"");
+        int[][] tabAux = tab.getTabuleiro();
+        for (int i = 0; i < tabAux.length ; i++) {
+            for (int j = 0; j < tabAux.length ; j++) {
+                if(tabAux[i][j] != -1){
+                    Pessoa p = tab.getPessoa(new Posicao(i,j));
+                    Pane pane = new Pane();
+                    gpTabuleiro.getChildren().remove(p.getPanePessoa());
+                    gpTabuleiro.add(p.getPanePessoa(), p.getPosicao().getX(), p.getPosicao().getY());
+                }
+            }
+        }
+
+    }
 }
