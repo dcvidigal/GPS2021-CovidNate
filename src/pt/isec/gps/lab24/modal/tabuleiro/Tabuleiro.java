@@ -137,7 +137,11 @@ public abstract class Tabuleiro {
     private void pessoaInterage(Pessoa pessoa) {
         Pessoa pessoaAux;
         for(int i = pessoa.getPosicao().getY()-1; i<pessoa.getPosicao().getY()+2;i++){
+            if(i<0) i=0;
+            else if(i>=numLinhas) i = numLinhas-1;
             for(int j = pessoa.getPosicao().getX()-1; j<pessoa.getPosicao().getX()+2;j++){
+                if(j<0) j=0;
+                else if(j>=numColunas) j = numColunas-1;
                 if(i!=pessoa.getPosicao().getY() && j!=pessoa.getPosicao().getX()){
                     if(tabuleiro[i][j] == -1){
                         pessoaAux = getPessoa(new Posicao(j,i));
