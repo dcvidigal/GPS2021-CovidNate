@@ -1,6 +1,7 @@
 package pt.isec.gps.lab24.modal.tabuleiro;
 
 import pt.isec.gps.lab24.modal.Pessoa;
+import pt.isec.gps.lab24.modal.recursos.Direcao;
 import pt.isec.gps.lab24.modal.recursos.Posicao;
 
 import java.util.ArrayList;
@@ -84,25 +85,59 @@ public abstract class Tabuleiro {
         return tabuleiro.clone();
     }
 
-    public void proximoTurno(){
+    public void proximoTurno() {
+        boolean podeMover;
         iniciaContagendoTempo();
         validaFimJogo();
-        for (int i = 0; i < pessoas.size(); i++) {
-            if(!pessoas.get(i).isQuarentena()) { // move so as pessoas que NÃO estão em quarentena
-                Posicao pos = novaPosicao(i);
-                tabuleiro[pessoas.get(i).getPosicao().getX()][pessoas.get(i).getPosicao().getY()] = -1;
-                pessoas.get(i).setPosicao(pos);
+
+        //mover as pessoas
+        for (Pessoa pessoa : pessoas) {
+            if (pessoa.isQuarentena()) {
+                pessoa.setTurnosEmQuarentena(pessoa.getTurnosEmQuarentena() - 1);
+                if (pessoa.getTurnosEmQuarentena() == 0) {
+                    pessoa.setQuarentena(false);
+                    pessoa.tentaFicarImune();
+                    pessoa.setInfetada(false);
+                }
             }
-            if(pessoas.get(i).isQuarentena()) {
-                pessoas.get(i).setTurnosEmQuarentena(pessoas.get(i).getTurnosEmQuarentena() - 1);
-                if (pessoas.get(i).getTurnosEmQuarentena() == 0) {
-                    pessoas.get(i).setQuarentena(false);
-                    pessoas.get(i).tentaFicarImune();
-                    pessoas.get(i).setInfetada(false);
+            podeMover = !pessoa.isQuarentena();
+            while (podeMover) {
+                switch (new Random().nextInt(4)) {
+                    case 0:
+                        if (pessoaPodeMover(pessoa, Direcao.BAIXO)) {
+                            pessoa.move(Direcao.BAIXO);
+                            podeMover = false;
+                        }
+                        break;
+                    case 1:
+                        if (pessoaPodeMover(pessoa, Direcao.CIMA)) {
+                            pessoa.move(Direcao.CIMA);
+                            podeMover = false;
+                        }
+                        break;
+                    case 2:
+                        if (pessoaPodeMover(pessoa, Direcao.ESQUERDA)) {
+                            pessoa.move(Direcao.ESQUERDA);
+                            podeMover = false;
+                        }
+                        break;
+                    case 3:
+                        if (pessoaPodeMover(pessoa, Direcao.DIREITA)) {
+                            pessoa.move(Direcao.DIREITA);
+                            podeMover = false;
+                        }
+                        break;
                 }
             }
         }
+    }
 
+    private boolean pessoaPodeMover(Pessoa pessoa, Direcao direcao) {
+        Posicao posicao = new Posicao(pessoa.getPosicao().getX(),pessoa.getPosicao().getY());
+        posicao.move(direcao);
+        if(tabuleiro[posicao.getY()][posicao.getX()] != -1)
+            return true;
+        return false;
     }
 
     public boolean infetarPessoa(Posicao posPessoa){
