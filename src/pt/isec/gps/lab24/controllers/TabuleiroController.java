@@ -20,6 +20,8 @@ import pt.isec.gps.lab24.modal.tabuleiro.TabuleiroFacil;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class TabuleiroController implements Initializable {
@@ -47,8 +49,13 @@ public class TabuleiroController implements Initializable {
     @FXML
     private TextArea historico;
 
+    Timer timer;
+    Timer timertotal;
+    int secondsToWait = 10;
+    int secondsjogo = 0;
     Jogador jogador;
     private Tabuleiro tab;
+
     public Jogador getJogador() {
         return jogador;
     }
@@ -89,12 +96,67 @@ public class TabuleiroController implements Initializable {
         historico.setText(strHistorico);
     }
 
+    public void atualizatimer(int i){
+        lblTimeLimit.setText(i + "");
+    }
+
+    public void timerturno (){
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                secondsToWait--;
+                atualizatimer(secondsToWait);
+                if (secondsToWait == 0) {
+                    proximoTurno();
+                }
+            }
+        };
+
+        timer.scheduleAtFixedRate(task, 1000, 1000);
+
+    }
+
+    public void setTimer() {
+        timer = new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            public void run() {
+                if(secondsToWait > 0)
+                {
+                    Platform.runLater(() -> atualizatimer(secondsToWait));
+                    System.out.println(secondsToWait);
+                    secondsToWait--;
+                }
+                else {
+                    Platform.runLater(() -> proximoTurno());
+                    timer.cancel();
+                }
+            }
+        }, 1000,1000);
+    }
+
+    public void atualizatimerjogo(int i){
+        lblTime.setText(i + "");
+    }
+
+    public void setTimerJogo() {
+        timertotal = new Timer();
+        timertotal.scheduleAtFixedRate(new TimerTask() {
+            public void run() {
+                    Platform.runLater(() -> atualizatimerjogo(secondsjogo));
+                    System.out.println(secondsjogo);
+                    secondsjogo++;
+            }
+        }, 1000,1000);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         Platform.runLater(() -> {
             if(this.jogador == null) this.jogador = new Jogador("guess",0,0);
             if(tab == null) tab = new TabuleiroFacil(10,10,35);
 
+            setTimer();
+            setTimerJogo();
             redesenhar();
 
             for (Node node : gpTabuleiro.getChildren()) {
@@ -137,6 +199,11 @@ public class TabuleiroController implements Initializable {
     private void proximoTurno() {
         this.jogador.setTurno(this.jogador.getTurno() + 1 );
         tab.proximoTurno();
+        secondsToWait=10;
+        if(timer!=null) {
+            timer.cancel();
+        }
+        setTimer();
         redesenhar();
     }
 
