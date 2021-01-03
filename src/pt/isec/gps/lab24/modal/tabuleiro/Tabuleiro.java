@@ -93,6 +93,7 @@ public abstract class Tabuleiro {
         //mover as pessoas
         int pos = 0;
         for (Pessoa pessoa : pessoas) {
+            if(pessoa.isImune()) pessoa.setInfetada(false);
             if (pessoa.isQuarentena()) {
                 if (pessoa.decTurnoEmIsolamento() == 0) {
                     pessoa.setQuarentena(false);

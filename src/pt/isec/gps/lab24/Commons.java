@@ -25,6 +25,7 @@ public class Commons {
     public static final String VIEW_TABULEIRO = "./views/tabuleiro.fxml";
     public static final String FIM_DE_JOGO_VITORIA = "FIM_DE_JOGO_VITORIA";
     public static final String FIM_DE_JOGO_PERDEU = "FIM_DE_JOGO_PERDEU";
+    public static final int SECONDS_TO_WAIT = 120;
 
 
     public Commons() {

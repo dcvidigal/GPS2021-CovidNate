@@ -56,7 +56,7 @@ public class TabuleiroController implements Initializable {
 
     Timer timer;
     Timer timertotal;
-    int secondsToWait = 10;
+    int secondsToWait = Commons.SECONDS_TO_WAIT;
     int secondsjogo = 0;
     Jogador jogador;
     private Tabuleiro tab;
@@ -105,21 +105,6 @@ public class TabuleiroController implements Initializable {
         lblTimeLimit.setText(i + "");
     }
 
-    public void timerturno (){
-        TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-                secondsToWait--;
-                atualizatimer(secondsToWait);
-                if (secondsToWait == 0) {
-                    proximoTurno();
-                }
-            }
-        };
-
-        timer.scheduleAtFixedRate(task, 1000, 1000);
-
-    }
 
     public void setTimer() {
         timer = new Timer();
@@ -174,6 +159,7 @@ public class TabuleiroController implements Initializable {
                         System.out.printf("Mouse entered cell [%d, %d]%n", colIndex.intValue(), rowIndex.intValue());
                         Pessoa p = tab.getPessoa(new Posicao(colIndex.intValue(), rowIndex.intValue()));
                         System.out.println(p.toString());
+                        if(p.isImune()) p.setInfetada(false);
                         if(p.isInfetada()){//encontrou infetado
                             p.setQuarentena(true);
                             tab.getPessoa(new Posicao(colIndex.intValue(), rowIndex.intValue())).setQuarentena(true);
@@ -181,12 +167,12 @@ public class TabuleiroController implements Initializable {
                             gpTabuleiro.add(p.getPanePessoa(), p.getPosicao().getX(), p.getPosicao().getY());
 
                             lblPontos.setText(jogador.incPontos(5) + "");
-                            atualizaHistoricoJogadas("Pessoa na posição " + p.getPosicao().getX() +","+ p.getPosicao().getY() +" posta em quarentena!");
+                            atualizaHistoricoJogadas("Pessoa em quarentena!");
                             if(!tab.isFimJogo().equals("")) terminarJogo();
                         }else{
                             jogador.setPontos(jogador.decPontos(2));
                             proximoTurno();
-                            atualizaHistoricoJogadas("FAZER MAIS MENSAGENS!!!");
+                            atualizaHistoricoJogadas("Esta pessoa não está infetada");
                         }
 
                     }
@@ -196,9 +182,6 @@ public class TabuleiroController implements Initializable {
         });
     }
 
-    public void terminarJogo(ActionEvent event){
-        terminarJogo();
-    }
     private void terminarJogo() {
         if(timer!=null)timer.cancel();
         if(timer!=null)timertotal.cancel();
@@ -243,7 +226,7 @@ public class TabuleiroController implements Initializable {
     private void proximoTurno() {
         this.jogador.setTurno(this.jogador.getTurno() + 1 );
         tab.proximoTurno();
-        secondsToWait=10;
+        secondsToWait=Commons.SECONDS_TO_WAIT;
         if(timer!=null) {
             timer.cancel();
         }
