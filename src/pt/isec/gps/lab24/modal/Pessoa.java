@@ -20,6 +20,7 @@ public class Pessoa {
     private int turnoSemInfetar;
     private StackPane panePessoa;
     private SVGPath svgPessoa;
+    private boolean contactoInfetada = false;
 
     public Pessoa(Posicao posicao, double probInfetar, double probImunidade, int turnoSemInfetar, int turnosEmQuarentena) {
         this.posicao = posicao;
@@ -123,5 +124,17 @@ public class Pessoa {
 
     public void setPosicao(Posicao pos) {
         this.posicao = pos;
+    }
+
+    public void contactoPessoaInfetada() {
+        contactoInfetada = true;
+
+        if((new Random().nextDouble()) < probInfetar){
+            infetada = true;
+        }
+    }
+
+    public boolean isContactoInfetada() {
+        return contactoInfetada;
     }
 }

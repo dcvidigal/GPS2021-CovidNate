@@ -100,6 +100,8 @@ public abstract class Tabuleiro {
                     pessoa.setInfetada(false);
                 }
             }
+            //interação entre pessoas
+            pessoaInterage(pessoa);
             podeMover = !pessoa.isQuarentena();
             while (podeMover) {
                 switch (new Random().nextInt(4)) {
@@ -127,6 +129,22 @@ public abstract class Tabuleiro {
                             podeMover = false;
                         }
                         break;
+                }
+            }
+        }
+    }
+
+    private void pessoaInterage(Pessoa pessoa) {
+        Pessoa pessoaAux;
+        for(int i = pessoa.getPosicao().getY()-1; i<pessoa.getPosicao().getY()+2;i++){
+            for(int j = pessoa.getPosicao().getX()-1; j<pessoa.getPosicao().getX()+2;j++){
+                if(i!=pessoa.getPosicao().getY() && j!=pessoa.getPosicao().getX()){
+                    if(tabuleiro[i][j] == -1){
+                        pessoaAux = getPessoa(new Posicao(j,i));
+                        if(pessoaAux.isInfetada()){
+                            pessoa.contactoPessoaInfetada();
+                        }
+                    }
                 }
             }
         }
