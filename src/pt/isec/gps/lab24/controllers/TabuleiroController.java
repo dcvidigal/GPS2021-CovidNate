@@ -151,6 +151,8 @@ public class TabuleiroController implements Initializable {
             redesenhar();
 
             for (Node node : gpTabuleiro.getChildren()) {
+                //node.setOnMousePressed(MouseEvent d);{
+                //};
                 node.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent e) {
