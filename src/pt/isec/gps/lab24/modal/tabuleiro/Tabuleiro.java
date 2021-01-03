@@ -91,12 +91,14 @@ public abstract class Tabuleiro {
     public void proximoTurno() {
         boolean podeMover;
         //mover as pessoas
+        int pos = 0;
         for (Pessoa pessoa : pessoas) {
             if (pessoa.isQuarentena()) {
                 if (pessoa.decTurnoEmIsolamento() == 0) {
                     pessoa.setQuarentena(false);
                     pessoa.tentaFicarImune();
                     pessoa.setInfetada(false);
+                    pessoa.setTurnosEmQuarentena(tempoMaxIsolamento);
                     this.numRecuperados++;
                 }
             }
@@ -109,12 +111,12 @@ public abstract class Tabuleiro {
                     pessoa.setTurnoSemInfetarCount(pessoa.getTurnoSemInfetarCount() + 1);
                 }
             }
-            for (Pessoa p: pessoas) p.resetContacto(); // retoma cor original antes de validar se esteve em contacto com uma pessoa infetada no turno atual
+            pessoa.resetContacto(); // retoma cor original antes de validar se esteve em contacto com uma pessoa infetada no turno atual
             //interação entre pessoas
             pessoaInterage(pessoa);
             podeMover = !pessoa.isQuarentena();
             List<Integer> direcoesTestadas = new ArrayList<>();
-            int pos = 0;
+
             while (podeMover) {
                 int dir = new Random().nextInt(4);
                 if(direcoesTestadas.size() >= 4  ) break; //tentou todas as direções sai do ciclo
@@ -164,14 +166,14 @@ public abstract class Tabuleiro {
     private void pessoaInterage(Pessoa pessoa) {
         Pessoa pessoaAux;
         for(int i = pessoa.getPosicao().getY()-1; i<pessoa.getPosicao().getY()+2;i++){
-            if(i<0) i=0;
-            else if(i>=numLinhas) i = numLinhas-1;
+            if(i<0 || i>=numLinhas ) continue;
+
             for(int j = pessoa.getPosicao().getX()-1; j<pessoa.getPosicao().getX()+2;j++){
-                if(j<0) j=0;
-                else if(j>=numColunas) j = numColunas-1;
+                if(j<0 || j>=numColunas) continue;
+
                 if(i!=pessoa.getPosicao().getY() && j!=pessoa.getPosicao().getX()){
-                    if(tabuleiro[i][j] == -1){
-                        pessoaAux = getPessoa(new Posicao(j,i));
+                    if(tabuleiro[i][j] != -1){
+                        pessoaAux = getPessoa(new Posicao(i,j));
                         if(pessoaAux.isInfetada()){
                             pessoa.contactoPessoaInfetada();
                         }

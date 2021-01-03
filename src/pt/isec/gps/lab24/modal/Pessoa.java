@@ -144,12 +144,12 @@ public class Pessoa {
                 podeSerInfetado=false;
             }
         }
-        svgPessoa.setFill(Color.YELLOW);
+        if(!this.isQuarentena() && !this.isImune())svgPessoa.setFill(Color.YELLOW);
     }
 
     public void resetContacto() {
         contactoInfetada = false;
-        if(!this.isQuarentena())svgPessoa.setFill(Color.BLACK);
+        if(!this.isQuarentena() && !this.isImune())svgPessoa.setFill(Color.BLACK);
     }
 
     public boolean isContactoInfetada() {

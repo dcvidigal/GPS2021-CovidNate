@@ -237,6 +237,7 @@ public class TabuleiroController implements Initializable {
     public void proximoTurno(ActionEvent event) {
        atualizaHistoricoJogadas("O jogador " + jogador.getNome() +" passou o turno");
        proximoTurno();
+        if(!tab.isFimJogo().equals("")) terminarJogo();
     }
 
     private void proximoTurno() {
