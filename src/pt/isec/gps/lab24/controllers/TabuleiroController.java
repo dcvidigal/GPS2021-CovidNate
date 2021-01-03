@@ -12,7 +12,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import pt.isec.gps.lab24.Commons;
 import pt.isec.gps.lab24.modal.Jogador;
@@ -37,6 +36,8 @@ public class TabuleiroController implements Initializable {
     public Label lblTime;
     @FXML
     public Label lblRecuperados;
+    @FXML
+    public Label lblInfectados;
     @FXML
     public Label lblTurno;
     @FXML
@@ -182,6 +183,10 @@ public class TabuleiroController implements Initializable {
         });
     }
 
+    @FXML
+    public void terminarJogo(ActionEvent event) {
+        terminarJogo();
+    }
     private void terminarJogo() {
         if(timer!=null)timer.cancel();
         if(timer!=null)timertotal.cancel();
@@ -197,7 +202,7 @@ public class TabuleiroController implements Initializable {
             a.setHeaderText("OH! Que Pena!");
             a.setContentText("A população está toda infetada");
         }
-
+        guardaClssificacao();
         Optional<ButtonType> result = a.showAndWait();
         if (result.get().getButtonData() == ButtonBar.ButtonData.OK_DONE){
             try {
@@ -239,17 +244,21 @@ public class TabuleiroController implements Initializable {
         lblTurno.setText(this.jogador.getTurno()+"");
         lblPontos.setText(this.jogador.getPontos()+"");
         lblRecuperados.setText(this.tab.getNumRecuperados()+"");
+        lblInfectados.setText(this.tab.getNumInfetadosInicial()+"");
         int[][] tabAux = tab.getTabuleiro();
         for (int i = 0; i < tabAux.length ; i++) {
             for (int j = 0; j < tabAux.length ; j++) {
                 if(tabAux[i][j] != -1){
                     Pessoa p = tab.getPessoa(new Posicao(i,j));
-                    Pane pane = new Pane();
                     gpTabuleiro.getChildren().remove(p.getPanePessoa());
                     gpTabuleiro.add(p.getPanePessoa(), p.getPosicao().getX(), p.getPosicao().getY());
                 }
             }
         }
 
+    }
+
+    public void guardaClssificacao() {
+        Commons.escreveParaFicheiroJSON(this.jogador,this.tab, lblTime.getText());
     }
 }

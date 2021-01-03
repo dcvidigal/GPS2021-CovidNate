@@ -6,6 +6,10 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import pt.isec.gps.lab24.controllers.MainMenuController;
 import pt.isec.gps.lab24.controllers.NovoJogoController;
 import pt.isec.gps.lab24.controllers.TabaleClassificacaoController;
@@ -13,7 +17,12 @@ import pt.isec.gps.lab24.controllers.TabuleiroController;
 import pt.isec.gps.lab24.modal.Jogador;
 import pt.isec.gps.lab24.modal.tabuleiro.Tabuleiro;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class Commons {
 
@@ -54,6 +63,53 @@ public class Commons {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void escreveParaFicheiroJSON(Jogador j, Tabuleiro t, String tempoDeJogo){
+
+        //tenta ir buscar dados
+
+
+
+        JSONObject map = new JSONObject();
+        map.put("NomeJogador", j.getNome());
+        map.put("NumberInfetados",t.getNumInfetadosInicial()+"");
+        map.put("Turno",j.getTurno()+"");
+        map.put("TempJogo",tempoDeJogo);
+        map.put("pontos",j.getPontos()+"");
+
+
+        JSONObject jsonObject = (JSONObject) lerDeFicheiroJSON();
+        JSONArray json = new JSONArray();
+        if(jsonObject == null){
+            jsonObject = new JSONObject();
+        }else{
+            json = (JSONArray) jsonObject.get("");
+        }
+
+        json.add(map);
+        jsonObject.put("",json);
+
+
+
+        try {
+            Files.write(Paths.get("highscore.json"), jsonObject.toJSONString().getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Object lerDeFicheiroJSON(){
+        JSONParser object = null;
+        try {
+            FileReader reader = new FileReader("highscore.json");
+            JSONParser jsonParser = new JSONParser();
+            return jsonParser.parse(reader);
+        } catch (IOException | ParseException e) {
+            e.printStackTrace();
+        }
+
+        return object;
     }
 
 }

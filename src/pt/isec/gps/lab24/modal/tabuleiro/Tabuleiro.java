@@ -26,7 +26,6 @@ public abstract class Tabuleiro {
         this.numInfetadosInicial = numInfetadosInicial;
         this.tempoMaxIsolamento = tempoMaxIsolamento;
         this.numRecuperados = 0;
-
         iniciaTabuleiro();
         criaPessoas(numMaxPessoas, turnoSemInfetar, probInfetar, probImunidade, tempoMaxIsolamento);
         //incializar X pessoas infetadas aleatoriamente
@@ -197,6 +196,7 @@ public abstract class Tabuleiro {
     public boolean infetarPessoa(Posicao posPessoa){
         if(tabuleiro[posPessoa.getX()][posPessoa.getY()]!=-1) {
             getPessoa(posPessoa).infetar();
+            numInfetadosInicial++;
             return true;
         }
         return false;
@@ -223,5 +223,9 @@ public abstract class Tabuleiro {
 
     public int getNumRecuperados() {
         return numRecuperados;
+    }
+
+    public int getNumInfetadosInicial() {
+        return numInfetadosInicial;
     }
 }

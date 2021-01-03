@@ -15,7 +15,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         Sistema covidNate = new Sistema();
-        Parent root = FXMLLoader.load(getClass().getResource(Commons.VIEW_NOVO_JOGO));
+        Parent root = FXMLLoader.load(getClass().getResource(Commons.VIEW_MAIN_MENU));
         //Parent root = FXMLLoader.load(getClass().getResource(Commons.VIEW_TABELA_CLASSIFICACAO));
 
         primaryStage.setTitle("CovidNate");

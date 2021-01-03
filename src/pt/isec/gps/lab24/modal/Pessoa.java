@@ -1,8 +1,10 @@
 package pt.isec.gps.lab24.modal;
 
+import javafx.animation.TranslateTransition;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
+import javafx.util.Duration;
 import pt.isec.gps.lab24.modal.recursos.Direcao;
 import pt.isec.gps.lab24.modal.recursos.Posicao;
 
@@ -17,6 +19,7 @@ public class Pessoa {
     private int diasInfetados = -1;
     private int turnosEmQuarentena = -1;
     private Posicao posicao;
+    private Posicao prevPosicao;
     private double probInfetar;
     private double probImunidade;
     private int turnoSemInfetar;
@@ -28,6 +31,7 @@ public class Pessoa {
 
     public Pessoa(Posicao posicao, double probInfetar, double probImunidade, int turnoSemInfetar, int turnosEmQuarentena) {
         this.posicao = posicao;
+        this.prevPosicao = new Posicao(posicao.getX(), posicao.getY());
         this.probInfetar = probInfetar;
         this.probImunidade = probImunidade;
         this.turnoSemInfetar = turnoSemInfetar;
@@ -144,6 +148,7 @@ public class Pessoa {
     }
 
     public void setPosicao(Posicao pos) {
+        this.prevPosicao = this.posicao;
         this.posicao = pos;
     }
 
@@ -186,4 +191,10 @@ public class Pessoa {
     public void setPodeSerInfetado(boolean podeSerInfetado) {
         this.podeSerInfetado = podeSerInfetado;
     }
+
+    public Posicao getPrevPosicao() {
+        return prevPosicao;
+    }
+
+
 }

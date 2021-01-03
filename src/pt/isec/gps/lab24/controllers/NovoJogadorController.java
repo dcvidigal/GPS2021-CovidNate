@@ -1,5 +1,6 @@
 package pt.isec.gps.lab24.controllers;
 
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -40,21 +41,21 @@ public class NovoJogadorController {
         stage.close();
     }
     public Boolean validar(){
+        if(tfNome.getText().isEmpty()) tfNome.setText("Guess");
         if(tfNome.getText().length() < 4 || tfNome.getText().length() > 16){
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Nome invalido");
             alert.setHeaderText(null);
-            alert.setContentText("Nome precisa de ter no minimo 4 letraas e menos de 16!");
+            alert.setContentText("Nome precisa de ter no minimo 4 letras e menos de 16!");
             alert.showAndWait();
             return false;
         }
         return true;
     }
     public void sair(ActionEvent event){
+        this.jogador = new Jogador();
+        Platform.exit();
 
-        Stage appStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-        appStage.close();
     }
     public Jogador getJogador(){
         return this.jogador;
