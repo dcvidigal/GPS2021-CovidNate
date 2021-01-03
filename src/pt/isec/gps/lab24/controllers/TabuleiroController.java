@@ -4,12 +4,16 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 import pt.isec.gps.lab24.Commons;
 import pt.isec.gps.lab24.modal.Jogador;
 import pt.isec.gps.lab24.modal.Pessoa;
@@ -17,6 +21,7 @@ import pt.isec.gps.lab24.modal.recursos.Posicao;
 import pt.isec.gps.lab24.modal.tabuleiro.Tabuleiro;
 import pt.isec.gps.lab24.modal.tabuleiro.TabuleiroFacil;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -174,11 +179,12 @@ public class TabuleiroController implements Initializable {
                             tab.getPessoa(new Posicao(colIndex.intValue(), rowIndex.intValue())).setQuarentena(true);
                             gpTabuleiro.getChildren().remove(p.getPanePessoa());
                             gpTabuleiro.add(p.getPanePessoa(), p.getPosicao().getX(), p.getPosicao().getY());
-                            jogador.setPontos(jogador.getPontos() + 5);
-                            lblPontos.setText(jogador.getPontos()+"");
+
+                            lblPontos.setText(jogador.incPontos(5) + "");
                             atualizaHistoricoJogadas("Pessoa na posição " + p.getPosicao().getX() +","+ p.getPosicao().getY() +" posta em quarentena!");
+                            if(!tab.isFimJogo().equals("")) terminarJogo();
                         }else{
-                            jogador.setPontos(jogador.getPontos() - 2);
+                            jogador.setPontos(jogador.decPontos(2));
                             proximoTurno();
                             atualizaHistoricoJogadas("FAZER MAIS MENSAGENS!!!");
                         }
@@ -190,7 +196,44 @@ public class TabuleiroController implements Initializable {
         });
     }
 
+    public void terminarJogo(ActionEvent event){
+        terminarJogo();
+    }
+    private void terminarJogo() {
+        if(timer!=null)timer.cancel();
+        if(timer!=null)timertotal.cancel();
+        String msg = tab.isFimJogo();
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
+        a.setTitle("Jogo Terminado");
 
+        if(msg.equals(Commons.FIM_DE_JOGO_VITORIA)){
+            a.setHeaderText("Parabéns");
+            a.setContentText("Curou Todas as Pessoas");
+        }
+        if(msg.equals(Commons.FIM_DE_JOGO_PERDEU)){
+            a.setHeaderText("OH! Que Pena!");
+            a.setContentText("A população está toda infetada");
+        }
+
+        Optional<ButtonType> result = a.showAndWait();
+        if (result.get().getButtonData() == ButtonBar.ButtonData.OK_DONE){
+            try {
+                Parent parent = null;
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("."+Commons.VIEW_MAIN_MENU));
+                parent = loader.load();
+                ((MainMenuController)loader.getController()).setJogador(this.jogador);
+                Scene scene = new Scene(parent);
+                Stage appStage = (Stage) gpTabuleiro.getScene().getWindow();
+                appStage.setScene(scene);
+                appStage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }// else {}
+    }
+
+    @FXML
     public void proximoTurno(ActionEvent event) {
        atualizaHistoricoJogadas("O jogador " + jogador.getNome() +" passou o turno");
        proximoTurno();
@@ -211,6 +254,7 @@ public class TabuleiroController implements Initializable {
         if(this.jogador.getTurno() < 0 ) this.jogador.setTurno(0);
         lblTurno.setText(this.jogador.getTurno()+"");
         lblPontos.setText(this.jogador.getPontos()+"");
+        lblRecuperados.setText(this.tab.getNumRecuperados()+"");
         int[][] tabAux = tab.getTabuleiro();
         for (int i = 0; i < tabAux.length ; i++) {
             for (int j = 0; j < tabAux.length ; j++) {

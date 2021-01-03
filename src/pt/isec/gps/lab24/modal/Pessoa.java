@@ -66,7 +66,7 @@ public class Pessoa {
             panePessoa.setStyle("-fx-border-color: darkorange;-fx-border-width: 6;-fx-border-insets: 5;");
 
             svgPessoa.setFill(Color.DARKRED);
-
+            this.infetada = false;
 
         }else{
             panePessoa.setStyle("-fx-border-color: none;");
@@ -85,6 +85,12 @@ public class Pessoa {
     public void setTurnosEmQuarentena(int turnosEmQuarentena) {
         this.turnosEmQuarentena = turnosEmQuarentena;
         if(this.turnosEmQuarentena < 0 ) this.turnosEmQuarentena = 0;
+    }
+
+    public int decTurnoEmIsolamento(){
+        this.turnosEmQuarentena--;
+        if(this.turnosEmQuarentena < 0 ) this.turnosEmQuarentena = 0;
+        return this.turnosEmQuarentena;
     }
 
     public Posicao getPosicao() {
@@ -107,6 +113,8 @@ public class Pessoa {
         return panePessoa;
     }
 
+
+
     @Override
     public String toString() {
         return "Pessoa{" +
@@ -128,10 +136,15 @@ public class Pessoa {
 
     public void contactoPessoaInfetada() {
         contactoInfetada = true;
-
         if((new Random().nextDouble()) < probInfetar){
             infetada = true;
         }
+        svgPessoa.setFill(Color.YELLOW);
+    }
+
+    public void resetContacto() {
+        contactoInfetada = false;
+        if(!this.isQuarentena())svgPessoa.setFill(Color.BLACK);
     }
 
     public boolean isContactoInfetada() {

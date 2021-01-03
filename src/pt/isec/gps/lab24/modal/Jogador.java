@@ -39,6 +39,20 @@ public class  Jogador {
         this.turno = turno;
     }
 
+    public int incTurnos(){
+        this.turno++;
+        return this.turno;
+    }
+
+    public int incPontos(int pontos){
+        this.pontos += pontos;
+        return  this.pontos;
+    }
+    public int decPontos(int pontos){
+        this.pontos -= pontos;
+        if(this.pontos < 0 ) this.pontos = 0;
+        return  this.pontos;
+    }
 
     @Override
     public String toString() {

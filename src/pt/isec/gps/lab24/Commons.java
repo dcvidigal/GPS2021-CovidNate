@@ -23,6 +23,9 @@ public class Commons {
     public static final String VIEW_MAIN_MENU = "./views/main_menu.fxml";
     public static final String VIEW_TABELA_CLASSIFICACAO = "./views/tabela_classificacao.fxml";
     public static final String VIEW_TABULEIRO = "./views/tabuleiro.fxml";
+    public static final String FIM_DE_JOGO_VITORIA = "FIM_DE_JOGO_VITORIA";
+    public static final String FIM_DE_JOGO_PERDEU = "FIM_DE_JOGO_PERDEU";
+
 
     public Commons() {
     }

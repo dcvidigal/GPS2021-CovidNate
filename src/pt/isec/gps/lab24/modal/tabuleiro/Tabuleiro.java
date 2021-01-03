@@ -1,5 +1,6 @@
 package pt.isec.gps.lab24.modal.tabuleiro;
 
+import pt.isec.gps.lab24.Commons;
 import pt.isec.gps.lab24.modal.Pessoa;
 import pt.isec.gps.lab24.modal.recursos.Direcao;
 import pt.isec.gps.lab24.modal.recursos.Posicao;
@@ -15,6 +16,7 @@ public abstract class Tabuleiro {
     private int numInfetadosInicial;
     private int tempoMaxIsolamento;
     private int tabuleiro [][];
+    private int numRecuperados;
 
 
     public Tabuleiro(int numLinhas, int numColunas, int numMaxPessoas, int numInfetadosInicial, int tempoMaxIsolamento, int turnoSemInfetar, double probInfetar, double probImunidade) {
@@ -23,6 +25,7 @@ public abstract class Tabuleiro {
         pessoas = new ArrayList<>();
         this.numInfetadosInicial = numInfetadosInicial;
         this.tempoMaxIsolamento = tempoMaxIsolamento;
+        this.numRecuperados = 0;
 
         iniciaTabuleiro();
         criaPessoas(numMaxPessoas, turnoSemInfetar, probInfetar, probImunidade, tempoMaxIsolamento);
@@ -87,50 +90,65 @@ public abstract class Tabuleiro {
 
     public void proximoTurno() {
         boolean podeMover;
-        iniciaContagendoTempo();
-        validaFimJogo();
-
         //mover as pessoas
+        int pos = 0;
         for (Pessoa pessoa : pessoas) {
             if (pessoa.isQuarentena()) {
-                pessoa.setTurnosEmQuarentena(pessoa.getTurnosEmQuarentena() - 1);
-                if (pessoa.getTurnosEmQuarentena() == 0) {
+                if (pessoa.decTurnoEmIsolamento() == 0) {
                     pessoa.setQuarentena(false);
                     pessoa.tentaFicarImune();
                     pessoa.setInfetada(false);
+                    this.numRecuperados++;
                 }
             }
+            for (Pessoa p: pessoas) p.resetContacto(); // retoma cor original antes de validar se esteve em contacto com uma pessoa infetada no turno atual
             //interação entre pessoas
             pessoaInterage(pessoa);
             podeMover = !pessoa.isQuarentena();
+            List<Integer> direcoesTestadas = new ArrayList<>();
             while (podeMover) {
-                switch (new Random().nextInt(4)) {
+                int dir = new Random().nextInt(4);
+                if(direcoesTestadas.size() >= 4  ) break; //tentou todas as direções sai do ciclo
+                if(direcoesTestadas.contains(dir)) continue; //se já testou essa direção, tenta outra
+                if(!direcoesTestadas.contains(dir)) direcoesTestadas.add(dir); //adiciona esta direção ás direçoes testadas
+                switch (dir) {
                     case 0:
                         if (pessoaPodeMover(pessoa, Direcao.BAIXO)) {
+                            tabuleiro[pessoa.getPosicao().getX()][pessoa.getPosicao().getY()] = -1;
                             pessoa.move(Direcao.BAIXO);
+                            tabuleiro[pessoa.getPosicao().getX()][pessoa.getPosicao().getY()] = pos;
                             podeMover = false;
                         }
                         break;
                     case 1:
                         if (pessoaPodeMover(pessoa, Direcao.CIMA)) {
+                            tabuleiro[pessoa.getPosicao().getX()][pessoa.getPosicao().getY()] = -1;
                             pessoa.move(Direcao.CIMA);
+                            tabuleiro[pessoa.getPosicao().getX()][pessoa.getPosicao().getY()] = pos;
                             podeMover = false;
                         }
                         break;
                     case 2:
                         if (pessoaPodeMover(pessoa, Direcao.ESQUERDA)) {
+                            tabuleiro[pessoa.getPosicao().getX()][pessoa.getPosicao().getY()] = -1;
                             pessoa.move(Direcao.ESQUERDA);
+                            tabuleiro[pessoa.getPosicao().getX()][pessoa.getPosicao().getY()] = pos;
                             podeMover = false;
                         }
                         break;
                     case 3:
                         if (pessoaPodeMover(pessoa, Direcao.DIREITA)) {
+                            tabuleiro[pessoa.getPosicao().getX()][pessoa.getPosicao().getY()] = -1;
                             pessoa.move(Direcao.DIREITA);
+                            tabuleiro[pessoa.getPosicao().getX()][pessoa.getPosicao().getY()] = pos;
                             podeMover = false;
                         }
                         break;
+                    default:
+                         break;
                 }
             }
+            pos++;
         }
     }
 
@@ -157,30 +175,42 @@ public abstract class Tabuleiro {
     private boolean pessoaPodeMover(Pessoa pessoa, Direcao direcao) {
         Posicao posicao = new Posicao(pessoa.getPosicao().getX(),pessoa.getPosicao().getY());
         posicao.move(direcao);
-        if(tabuleiro[posicao.getY()][posicao.getX()] != -1)
+        if(posicao.getX() < 0 || posicao.getX() > 9) return false;
+        if(posicao.getY() < 0 || posicao.getY() > 9) return false;
+        if(tabuleiro[posicao.getX()][posicao.getY()] == -1)
             return true;
         return false;
     }
 
     public boolean infetarPessoa(Posicao posPessoa){
-        if(tabuleiro[posPessoa.getY()][posPessoa.getX()]!=-1) {
+        if(tabuleiro[posPessoa.getX()][posPessoa.getY()]!=-1) {
             getPessoa(posPessoa).infetar();
             return true;
         }
         return false;
     }
 
-    protected void validaFimJogo(){
-        System.out.println("validaFimJogo: Falta implementar");
+    public String isFimJogo(){
+        //valida se  todas as pessoas estao infetadas
+        String fimJogo = Commons.FIM_DE_JOGO_PERDEU;
+        for (Pessoa p: pessoas){
+            if(!p.isInfetada()) fimJogo = Commons.FIM_DE_JOGO_VITORIA;
+        }
+        //valida se  todas as pessoas não estao infetadas
+        for (Pessoa p: pessoas){
+            if(p.isInfetada()) fimJogo = "";
+        }
+
+        return fimJogo;
     }
 
-    private void iniciaContagendoTempo() {
-        System.out.println("iniciaContagendoTempo: Falta implementar");
-    }
 
     public Pessoa getPessoa(Posicao posPessoa){
         int i = tabuleiro[posPessoa.getX()][posPessoa.getY()];
         return pessoas.get(i);
     }
 
+    public int getNumRecuperados() {
+        return numRecuperados;
+    }
 }
