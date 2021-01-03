@@ -21,6 +21,8 @@ public class Pessoa {
     private StackPane panePessoa;
     private SVGPath svgPessoa;
     private boolean contactoInfetada = false;
+    private int turnoSemInfetarCount=0;
+    private boolean podeSerInfetado = true;
 
     public Pessoa(Posicao posicao, double probInfetar, double probImunidade, int turnoSemInfetar, int turnosEmQuarentena) {
         this.posicao = posicao;
@@ -136,8 +138,11 @@ public class Pessoa {
 
     public void contactoPessoaInfetada() {
         contactoInfetada = true;
-        if((new Random().nextDouble()) < probInfetar){
-            infetada = true;
+        if(podeSerInfetado){
+            if((new Random().nextDouble()) < probInfetar){
+                infetada = true;
+                podeSerInfetado=false;
+            }
         }
         svgPessoa.setFill(Color.YELLOW);
     }
@@ -149,5 +154,25 @@ public class Pessoa {
 
     public boolean isContactoInfetada() {
         return contactoInfetada;
+    }
+
+    public int getTurnoSemInfetarCount() {
+        return turnoSemInfetarCount;
+    }
+
+    public void setTurnoSemInfetarCount(int turnoSemInfetarCount) {
+        this.turnoSemInfetarCount = turnoSemInfetarCount;
+    }
+
+    public boolean getPodeSerInfetado() {
+        return podeSerInfetado;
+    }
+
+    public int getTurnoSemInfetar() {
+        return turnoSemInfetar;
+    }
+
+    public void setPodeSerInfetado(boolean podeSerInfetado) {
+        this.podeSerInfetado = podeSerInfetado;
     }
 }
