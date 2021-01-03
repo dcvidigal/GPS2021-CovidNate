@@ -91,7 +91,6 @@ public abstract class Tabuleiro {
     public void proximoTurno() {
         boolean podeMover;
         //mover as pessoas
-        int pos = 0;
         for (Pessoa pessoa : pessoas) {
             if (pessoa.isQuarentena()) {
                 if (pessoa.decTurnoEmIsolamento() == 0) {
@@ -101,11 +100,21 @@ public abstract class Tabuleiro {
                     this.numRecuperados++;
                 }
             }
+            if(!pessoa.getPodeSerInfetado()){
+                if(pessoa.getTurnoSemInfetarCount() == pessoa.getTurnoSemInfetar()){
+                    pessoa.setPodeSerInfetado(true);
+                    pessoa.setTurnoSemInfetarCount(0);
+                }
+                else {
+                    pessoa.setTurnoSemInfetarCount(pessoa.getTurnoSemInfetarCount() + 1);
+                }
+            }
             for (Pessoa p: pessoas) p.resetContacto(); // retoma cor original antes de validar se esteve em contacto com uma pessoa infetada no turno atual
             //interação entre pessoas
             pessoaInterage(pessoa);
             podeMover = !pessoa.isQuarentena();
             List<Integer> direcoesTestadas = new ArrayList<>();
+            int pos = 0;
             while (podeMover) {
                 int dir = new Random().nextInt(4);
                 if(direcoesTestadas.size() >= 4  ) break; //tentou todas as direções sai do ciclo
@@ -203,7 +212,6 @@ public abstract class Tabuleiro {
 
         return fimJogo;
     }
-
 
     public Pessoa getPessoa(Posicao posPessoa){
         int i = tabuleiro[posPessoa.getX()][posPessoa.getY()];
