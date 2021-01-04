@@ -55,9 +55,11 @@ public class TabaleClassificacaoController implements Initializable {
             tempJogoCol.setCellValueFactory(new PropertyValueFactory("tempJogo"));
             TableColumn pontosCol = new TableColumn("Pontos");
             pontosCol.setCellValueFactory(new PropertyValueFactory("pontos"));
+            TableColumn dificuldadeCol = new TableColumn("Dificuldade");
+            dificuldadeCol.setCellValueFactory(new PropertyValueFactory("dificuldade"));
             if(tbView == null) tbView = new TableView();
 
-            tbView.getColumns().addAll(nomeCol,numberRecuperadosCol, numberInfetadosCol,turnoCol,tempJogoCol,pontosCol);
+            tbView.getColumns().addAll(nomeCol,numberRecuperadosCol, numberInfetadosCol,turnoCol,tempJogoCol,pontosCol,dificuldadeCol);
 
             JSONObject jsonObject = (JSONObject) Commons.lerDeFicheiroJSON();
             JSONArray json = new JSONArray();
@@ -76,9 +78,12 @@ public class TabaleClassificacaoController implements Initializable {
                         Integer.parseInt(jObj.get("NumberInfetados").toString()),
                         Integer.parseInt(jObj.get("Turno").toString()),
                         jObj.get("TempJogo").toString(),
-                        Integer.parseInt(jObj.get("pontos").toString())
+                        Integer.parseInt(jObj.get("pontos").toString()),
+                        jObj.get("dificuldade").toString()
                 ));
             }
+
+            result.sort(Classificacao::compareTo);
 
             tbView.getItems().addAll(FXCollections.observableArrayList(result));
             tbView.refresh();

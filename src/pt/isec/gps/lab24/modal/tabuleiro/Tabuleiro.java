@@ -17,15 +17,17 @@ public abstract class Tabuleiro {
     private int tempoMaxIsolamento;
     private int tabuleiro [][];
     private int numRecuperados;
+    private String dificuldade;
 
 
-    public Tabuleiro(int numLinhas, int numColunas, int numMaxPessoas, int numInfetadosInicial, int tempoMaxIsolamento, int turnoSemInfetar, double probInfetar, double probImunidade) {
+    public Tabuleiro(int numLinhas, int numColunas, int numMaxPessoas, int numInfetadosInicial, int tempoMaxIsolamento, int turnoSemInfetar, double probInfetar, double probImunidade, String dificuldade) {
         this.numLinhas = numLinhas;
         this.numColunas = numColunas;
         pessoas = new ArrayList<>();
         this.numInfetadosInicial = numInfetadosInicial;
         this.tempoMaxIsolamento = tempoMaxIsolamento;
         this.numRecuperados = 0;
+        this.dificuldade = dificuldade;
         iniciaTabuleiro();
         criaPessoas(numMaxPessoas, turnoSemInfetar, probInfetar, probImunidade, tempoMaxIsolamento);
         //incializar X pessoas infetadas aleatoriamente
@@ -237,5 +239,9 @@ public abstract class Tabuleiro {
 
     public void decNumInfetados(){
      this.numInfetadosInicial--;
+    }
+
+    public String getDificuldade() {
+        return this.dificuldade;
     }
 }

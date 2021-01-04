@@ -6,7 +6,7 @@
 
 <AnchorPane prefHeight="565.0" prefWidth="793.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pt.isec.gps.lab24.controllers.TabaleClassificacaoController">
    <children>
-      <TableView fx:id="tbView" layoutX="44.0" layoutY="133.0" prefHeight="291.0" prefWidth="707.0">
+      <TableView fx:id="tbView" layoutX="26.0" layoutY="133.0" prefHeight="291.0" prefWidth="746.0">
       </TableView>
       <Label layoutX="297.0" layoutY="45.0" text="CovidNate">
          <font>

@@ -33,6 +33,9 @@ public class Commons {
     public static final String FIM_DE_JOGO_VITORIA = "FIM_DE_JOGO_VITORIA";
     public static final String FIM_DE_JOGO_PERDEU = "FIM_DE_JOGO_PERDEU";
     public static final int SECONDS_TO_WAIT = 120;
+    public static final String FACIL = "Fácil";
+    public static final String NORMAL = "Normal";
+    public static final String DIFICIL = "Dificil";
 
 
     public Commons() {
@@ -74,7 +77,7 @@ public class Commons {
         map.put("Turno",j.getTurno()+"");
         map.put("TempJogo",tempoDeJogo);
         map.put("pontos",j.getPontos()+"");
-
+        map.put("dificuldade",t.getDificuldade()+"");
 
         JSONObject jsonObject = (JSONObject) lerDeFicheiroJSON();
         JSONArray json = new JSONArray();
