@@ -37,6 +37,7 @@ public class NovoJogoController {
 
 
     public void jogar(ActionEvent event) {
+        if(!check()) return;
             if(facil.isSelected()==true) {
                 //TabuleiroFacil tab;
                 new Commons().mudarEcra(Commons.VIEW_TABULEIRO,event,jogador,new TabuleiroFacil(10,10,30));
