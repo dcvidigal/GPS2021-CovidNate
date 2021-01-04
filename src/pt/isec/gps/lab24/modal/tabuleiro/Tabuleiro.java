@@ -101,7 +101,6 @@ public abstract class Tabuleiro {
                     pessoa.setInfetada(false);
                     pessoa.setTurnosEmQuarentena(tempoMaxIsolamento);
                     this.numRecuperados++;
-                    this.numInfetadosInicial--;
                 }
             }
             if(!pessoa.getPodeSerInfetado()){
@@ -205,12 +204,14 @@ public abstract class Tabuleiro {
     }
 
     public String isFimJogo(){
+        int contaImunes = 0;
+        for (Pessoa p: pessoas) if(p.isImune()) contaImunes++;
         //valida se  todas as pessoas estao infetadas
         int contaPessoas = 0;
 
         String fimJogo = "";
         for (Pessoa p: pessoas) if(p.isInfetada()) contaPessoas++;
-        if(contaPessoas == pessoas.size()) return  Commons.FIM_DE_JOGO_PERDEU;
+        if(contaPessoas ==Math.abs(pessoas.size() - contaImunes)) return  Commons.FIM_DE_JOGO_PERDEU;
         //valida se  todas as pessoas não estao infetadas
         contaPessoas=0;
         for (Pessoa p: pessoas) if(!p.isInfetada()) contaPessoas++;
@@ -229,6 +230,12 @@ public abstract class Tabuleiro {
     }
 
     public int getNumInfetadosInicial() {
-        return numInfetadosInicial;
+        int count = 0;
+        for (Pessoa p : pessoas) if(!p.isImune() && p.isInfetada()) count++;
+        return count;
+    }
+
+    public void decNumInfetados(){
+     this.numInfetadosInicial--;
     }
 }

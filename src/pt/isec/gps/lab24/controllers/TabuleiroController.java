@@ -166,8 +166,11 @@ public class TabuleiroController implements Initializable {
                         System.out.println(p.toString());
                         if(p.isImune()) p.setInfetada(false);
                         if(p.isInfetada()){//encontrou infetado
-                            p.setQuarentena(true);
+                            //p.setQuarentena(true);
+
+                            lblInfectados.setText(tab.getNumInfetadosInicial()+"");
                             tab.getPessoa(new Posicao(colIndex.intValue(), rowIndex.intValue())).setQuarentena(true);
+                            tab.decNumInfetados();
                             gpTabuleiro.getChildren().remove(p.getPanePessoa());
                             gpTabuleiro.add(p.getPanePessoa(), p.getPosicao().getX(), p.getPosicao().getY());
 
