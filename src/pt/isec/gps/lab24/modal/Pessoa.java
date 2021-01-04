@@ -119,9 +119,9 @@ public class Pessoa {
     public void move(Direcao direcao){
         posicao.move(direcao);
         if(direcao == Direcao.CIMA) direcao = Direcao.BAIXO;
-        if(direcao == Direcao.BAIXO) direcao = Direcao.CIMA;
-        if(direcao == Direcao.DIREITA) direcao = Direcao.ESQUERDA;
-        if(direcao == Direcao.ESQUERDA) direcao = Direcao.DIREITA;
+        else if(direcao == Direcao.BAIXO) direcao = Direcao.CIMA;
+        else if(direcao == Direcao.DIREITA) direcao = Direcao.ESQUERDA;
+        else if(direcao == Direcao.ESQUERDA) direcao = Direcao.DIREITA;
         Tooltip tooltip = new Tooltip("Vim de/da "  + direcao);
         //Tooltip tooltip = new Tooltip("Vim de/da "  + direcao+ " \ninfetado: "+this.infetada + " \nimune "+this.imune);
         tooltip.setShowDelay(new Duration(500));
