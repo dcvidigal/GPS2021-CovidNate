@@ -17,10 +17,8 @@ import pt.isec.gps.lab24.controllers.TabuleiroController;
 import pt.isec.gps.lab24.modal.Jogador;
 import pt.isec.gps.lab24.modal.tabuleiro.Tabuleiro;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
@@ -69,10 +67,9 @@ public class Commons {
 
         //tenta ir buscar dados
 
-
-
         JSONObject map = new JSONObject();
         map.put("NomeJogador", j.getNome());
+        map.put("NumberRecuperados",t.getNumRecuperados()+"");
         map.put("NumberInfetados",t.getNumInfetadosInicial()+"");
         map.put("Turno",j.getTurno()+"");
         map.put("TempJogo",tempoDeJogo);

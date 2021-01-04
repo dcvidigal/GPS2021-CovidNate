@@ -2,7 +2,6 @@ package pt.isec.gps.lab24.controllers;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,7 +16,6 @@ import pt.isec.gps.lab24.modal.Jogador;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -45,18 +43,21 @@ public class TabaleClassificacaoController implements Initializable {
 
 
         Platform.runLater(() -> {
-            TableColumn nomeCol = new TableColumn("nome");
+            TableColumn nomeCol = new TableColumn("Nome Jogador");
             nomeCol.setCellValueFactory(new PropertyValueFactory("NomeJogador"));
-            TableColumn numberInfetadosCol = new TableColumn("numberInfetados");
+            TableColumn numberRecuperadosCol = new TableColumn("Numero de Recuperados");
+            numberRecuperadosCol.setCellValueFactory(new PropertyValueFactory("NumberRecuperados"));
+            TableColumn numberInfetadosCol = new TableColumn("Numero de Infetados");
             numberInfetadosCol.setCellValueFactory(new PropertyValueFactory("numberInfetados"));
-            TableColumn turnoCol = new TableColumn("turno");
+            TableColumn turnoCol = new TableColumn("Turnos Usados");
             turnoCol.setCellValueFactory(new PropertyValueFactory("turno"));
-            TableColumn tempJogoCol = new TableColumn("tempJogo");
+            TableColumn tempJogoCol = new TableColumn("Tempo de Jogo");
             tempJogoCol.setCellValueFactory(new PropertyValueFactory("tempJogo"));
-            TableColumn pontosCol = new TableColumn("pontos");
+            TableColumn pontosCol = new TableColumn("Pontos");
             pontosCol.setCellValueFactory(new PropertyValueFactory("pontos"));
             if(tbView == null) tbView = new TableView();
-            tbView.getColumns().setAll(nomeCol,numberInfetadosCol,turnoCol,tempJogoCol,pontosCol);
+
+            tbView.getColumns().addAll(nomeCol,numberRecuperadosCol, numberInfetadosCol,turnoCol,tempJogoCol,pontosCol);
 
             JSONObject jsonObject = (JSONObject) Commons.lerDeFicheiroJSON();
             JSONArray json = new JSONArray();
@@ -71,10 +72,11 @@ public class TabaleClassificacaoController implements Initializable {
             for (int i = 0; i < json.size(); i++) {
                 JSONObject jObj = ((JSONObject) json.get(i));
                 result.add(new Classificacao(jObj.get("NomeJogador").toString(),
+                        Integer.parseInt(jObj.get("NumberRecuperados").toString()),
                         Integer.parseInt(jObj.get("NumberInfetados").toString()),
-                        Integer.parseInt(jObj.get("NumberInfetados").toString()),
-                        jObj.get("Turno").toString(),
-                                Integer.parseInt(jObj.get("TempJogo").toString())
+                        Integer.parseInt(jObj.get("Turno").toString()),
+                        jObj.get("TempJogo").toString(),
+                        Integer.parseInt(jObj.get("pontos").toString())
                 ));
             }
 

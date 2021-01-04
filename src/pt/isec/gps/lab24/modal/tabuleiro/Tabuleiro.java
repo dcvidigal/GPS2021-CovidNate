@@ -35,6 +35,7 @@ public abstract class Tabuleiro {
             if(!pessoas.get(pos).isInfetada()) pessoas.get(pos).infetar();
             else numInfetadosInicial++;
         }
+
     }
 
     private void iniciaTabuleiro() {
@@ -100,6 +101,7 @@ public abstract class Tabuleiro {
                     pessoa.setInfetada(false);
                     pessoa.setTurnosEmQuarentena(tempoMaxIsolamento);
                     this.numRecuperados++;
+                    this.numInfetadosInicial--;
                 }
             }
             if(!pessoa.getPodeSerInfetado()){
@@ -174,8 +176,8 @@ public abstract class Tabuleiro {
                 if(i!=pessoa.getPosicao().getY() && j!=pessoa.getPosicao().getX()){
                     if(tabuleiro[i][j] != -1){
                         pessoaAux = getPessoa(new Posicao(i,j));
-                        if(pessoaAux.isInfetada()){
-                            pessoa.contactoPessoaInfetada();
+                        if(pessoaAux.isInfetada() && !pessoa.isImune()){
+                            if(pessoa.contactoPessoaInfetada()) this.numInfetadosInicial++;
                         }
                     }
                 }
@@ -196,7 +198,7 @@ public abstract class Tabuleiro {
     public boolean infetarPessoa(Posicao posPessoa){
         if(tabuleiro[posPessoa.getX()][posPessoa.getY()]!=-1) {
             getPessoa(posPessoa).infetar();
-            numInfetadosInicial++;
+
             return true;
         }
         return false;
@@ -204,14 +206,15 @@ public abstract class Tabuleiro {
 
     public String isFimJogo(){
         //valida se  todas as pessoas estao infetadas
-        String fimJogo = Commons.FIM_DE_JOGO_PERDEU;
-        for (Pessoa p: pessoas){
-            if(!p.isInfetada()) fimJogo = Commons.FIM_DE_JOGO_VITORIA;
-        }
+        int contaPessoas = 0;
+
+        String fimJogo = "";
+        for (Pessoa p: pessoas) if(p.isInfetada()) contaPessoas++;
+        if(contaPessoas == pessoas.size()) return  Commons.FIM_DE_JOGO_PERDEU;
         //valida se  todas as pessoas não estao infetadas
-        for (Pessoa p: pessoas){
-            if(p.isInfetada()) fimJogo = "";
-        }
+        contaPessoas=0;
+        for (Pessoa p: pessoas) if(!p.isInfetada()) contaPessoas++;
+        if(contaPessoas == pessoas.size()) return   Commons.FIM_DE_JOGO_VITORIA;
 
         return fimJogo;
     }

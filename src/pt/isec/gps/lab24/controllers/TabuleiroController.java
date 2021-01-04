@@ -145,6 +145,8 @@ public class TabuleiroController implements Initializable {
         Platform.runLater(() -> {
             if(this.jogador == null) this.jogador = new Jogador("guess",0,0);
             if(tab == null) tab = new TabuleiroFacil(10,10,35);
+            this.jogador.setPontos(0);
+            this.jogador.setTurno(0);
 
             setTimer();
             setTimerJogo();
@@ -178,6 +180,7 @@ public class TabuleiroController implements Initializable {
 
                     }
                 });
+
             }
 
         });

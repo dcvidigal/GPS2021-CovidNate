@@ -6,7 +6,6 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import pt.isec.gps.lab24.Commons;
 import pt.isec.gps.lab24.modal.Jogador;
 
 public class EditarJogadorController {

@@ -1,7 +1,7 @@
 package pt.isec.gps.lab24.modal;
 
-import javafx.animation.TranslateTransition;
-import javafx.scene.layout.*;
+import javafx.scene.control.Tooltip;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.SVGPath;
 import javafx.util.Duration;
@@ -55,6 +55,9 @@ public class Pessoa {
         panePessoa.getChildren().add(svgPessoa);
         panePessoa.setScaleX(0.4);
         panePessoa.setScaleY(0.3);
+
+
+
     }
 
     public boolean isInfetada() {
@@ -115,6 +118,14 @@ public class Pessoa {
 
     public void move(Direcao direcao){
         posicao.move(direcao);
+        if(direcao == Direcao.CIMA) direcao = Direcao.BAIXO;
+        if(direcao == Direcao.BAIXO) direcao = Direcao.CIMA;
+        if(direcao == Direcao.DIREITA) direcao = Direcao.ESQUERDA;
+        if(direcao == Direcao.ESQUERDA) direcao = Direcao.DIREITA;
+        Tooltip tooltip = new Tooltip("Vim de/da "  + direcao);
+        //Tooltip tooltip = new Tooltip("Vim de/da "  + direcao+ " \ninfetado: "+this.infetada + " \nimune "+this.imune);
+        tooltip.setShowDelay(new Duration(500));
+        Tooltip.install(panePessoa, tooltip);
     }
 
     public void infetar(){
@@ -152,15 +163,18 @@ public class Pessoa {
         this.posicao = pos;
     }
 
-    public void contactoPessoaInfetada() {
+    public boolean contactoPessoaInfetada() {
+        boolean foiInfetado = false;
         contactoInfetada = true;
-        if(podeSerInfetado){
+        if(podeSerInfetado && infetada == false){
             if((new Random().nextDouble()) < probInfetar){
                 infetada = true;
                 podeSerInfetado=false;
+                foiInfetado = true;
             }
         }
         if(!this.isQuarentena() && !this.isImune())svgPessoa.setFill(Color.ORANGE);
+        return foiInfetado;
     }
 
     public void resetContacto() {

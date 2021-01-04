@@ -4,7 +4,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import pt.isec.gps.lab24.Commons;
 import pt.isec.gps.lab24.controllers.EditarJogadorController;
 import pt.isec.gps.lab24.modal.Jogador;
 

@@ -5,12 +5,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.RadioButton;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+import pt.isec.gps.lab24.Commons;
 import pt.isec.gps.lab24.DialogModal;
 import pt.isec.gps.lab24.modal.Jogador;
-import pt.isec.gps.lab24.Commons;
 
 import java.io.IOException;
 import java.net.URL;
@@ -23,7 +22,6 @@ public class MainMenuController implements Initializable {
     private GridPane grPane; //é so para se ir buscar o Scence onde se encontra
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-       //TODO Initialize the popup
         Platform.runLater(() -> {
             try {
                 if(jogador == null){
